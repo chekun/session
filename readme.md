@@ -12,9 +12,11 @@ This package provides two features:
 ## How to use
 
   - Step 1
-
-        composer require eliminate/session ~1.0.0
-
+  
+  ```
+  composer require eliminate/session ~1.0.0
+  ```
+  
   - Step 2
 
   Edit your config/app.php
