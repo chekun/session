@@ -24,13 +24,13 @@ This package provides two features:
   Replace
 
   ```
-        'Illuminate\Session\SessionServiceProvider',
+  'Illuminate\Session\SessionServiceProvider',
   ```
 
   To
 
   ```
-        'Eliminate\Session\SessionServiceProvider',
+  'Eliminate\Session\SessionServiceProvider',
   ```
 
   - Step 3
@@ -39,9 +39,9 @@ This package provides two features:
 
   ```
 
-        'serializer' => 'json', // or php
+  'serializer' => 'json', // or php
 
-        'prefix' => '',
+  'prefix' => '',
 
   ```
 
