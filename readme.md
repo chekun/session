@@ -1,6 +1,8 @@
 Eliminate\Session
 ===================
 
+[![Build Status](https://travis-ci.org/eliminatehq/session.svg?branch=master)](https://travis-ci.org/eliminatehq/session)
+
 This package provides two features:
   1. you can set session data store format (aka serializers)
     - php-serialized style
