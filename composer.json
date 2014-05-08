@@ -1,0 +1,20 @@
+{
+    "name": "eliminate/session",
+    "description": "Add Session Data Serializer Support.",
+    "authors": [
+        {
+            "name": "chekun",
+            "email": "234267695@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Eliminate\\Session": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
