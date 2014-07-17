@@ -1,5 +1,7 @@
 <?php namespace Eliminate\Session\Serializer;
 
+use Illuminate\Support\MessageBag;
+
 class JsonSerializer implements SerializerInterface {
 
     /**
@@ -11,7 +13,7 @@ class JsonSerializer implements SerializerInterface {
     {
         static $i = 0;
 
-        $i OR $i = mt_rand(1, 0x7FFFFF);
+        $i or $i = mt_rand(1, 0x7FFFFF);
 
         return sprintf("%08x%06x%04x%06x",
             time() & 0xFFFFFFFF,
@@ -29,6 +31,9 @@ class JsonSerializer implements SerializerInterface {
      */
     public function serialize(array $value)
     {
+        if (isset($value['errors']) and $value['errors'] instanceof MessageBag) {
+            $value['errors'] = serialize($value['errors']);
+        }
         return json_encode($value);
     }
 
@@ -40,6 +45,10 @@ class JsonSerializer implements SerializerInterface {
      */
     public function unserialize($value)
     {
-        return json_decode($value, true);
+        $result = json_decode($value, true);
+        if (isset($result['errors']) ) {
+            $result['errors'] = unserialize($result['errors']);
+        }
+        return $result;
     }
 }

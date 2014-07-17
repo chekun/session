@@ -11,8 +11,7 @@ class SessionServiceProvider extends IlluminateSessionServiceProvider {
      */
     protected function registerSessionManager()
     {
-        $this->app->bindShared('session', function($app)
-        {
+        $this->app->bindShared('session', function($app) {
             return new SessionManager($app);
         });
     }
