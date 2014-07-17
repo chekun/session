@@ -1,4 +1,4 @@
-<?php namespace Eliminate\Foundation;
+<?php namespace Eliminate\Session\Application;
 
 use Illuminate\Foundation\Application as IlluminateApplication;
 
