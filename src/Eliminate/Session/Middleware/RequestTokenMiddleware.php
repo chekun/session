@@ -1,4 +1,4 @@
-<?php namespace Ellimnate\Session\Middleware;
+<?php namespace Eliminate\Session\Middleware;
 
 use Illuminate\Config\Repository;
 use Symfony\Component\HttpFoundation\Request;
