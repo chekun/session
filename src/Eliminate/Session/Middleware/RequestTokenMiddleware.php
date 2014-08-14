@@ -43,7 +43,9 @@ class RequestTokenMiddleware implements HttpKernelInterface {
 
             $this->config->set('session._session_id', $tokenValue[0]);
 
-            $this->config->set('session._remember_token', $tokenValue[1].'|'.$tokenValue[2]);
+            $this->config->set('session._recaller_id', $tokenValue[1]);
+
+            $this->config->set('session._token', $tokenValue[2]);
 
         }
 
