@@ -53,6 +53,12 @@ class ResponseTokenMiddleware implements HttpKernelInterface {
 
         $response->headers->set('X-Response-Token', $token);
 
+        $original = $response->getData();
+
+        $original->token = $token;
+        
+        $response->setData($original);
+
         return $response;
     }
 

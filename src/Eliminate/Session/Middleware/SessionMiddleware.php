@@ -42,7 +42,13 @@ class SessionMiddleware extends IlluminateMiddleware {
     public function getSession(Request $request)
     {
         $session = $this->manager->driver();
-        $session->setId($this->config->get('session._session_id'));
+
+        if (time() - $this->config->get('session._timestamp') < 120) {
+            $session->setId($this->config->get('session._session_id'));
+        } else {
+            $session->setId(null);
+        }
+        
         return $session;
     }
 

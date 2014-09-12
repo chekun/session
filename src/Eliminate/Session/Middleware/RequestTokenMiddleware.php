@@ -41,11 +41,15 @@ class RequestTokenMiddleware implements HttpKernelInterface {
 
             $tokenValue = explode('|', $this->encrypter->decrypt($token));
 
+            app()->before(function() use ($tokenValue){
+                if (\Auth::check() and is_null(\Session::get(\Auth::getName()))) {
+                    \Session::put(\Auth::getName(), $tokenValue[1]);
+                }
+            });
+
             $this->config->set('session._session_id', $tokenValue[0]);
 
-            $this->config->set('session._recaller_id', $tokenValue[1]);
-
-            $this->config->set('session._token', $tokenValue[2]);
+            $this->config->set('session._timestamp', $tokenValue[2]);
 
         }
 
