@@ -51,6 +51,17 @@ class Store extends IlluminateSessionStore {
     }
 
     /**
+     * Determine if this is a valid session ID.
+     *
+     * @param  string  $id
+     * @return bool
+     */
+    public function isValidId($id)
+    {
+        return $id ? true : false;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function save()
