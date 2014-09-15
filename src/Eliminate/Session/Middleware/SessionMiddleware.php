@@ -43,7 +43,9 @@ class SessionMiddleware extends IlluminateMiddleware {
     {
         $session = $this->manager->driver();
 
-        if (time() - $this->config->get('session._timestamp') < 120) {
+        $expiredTime = $this->config->get('session.ttl', 3600);
+
+        if (time() - $this->config->get('session._timestamp') < $expiredTime) {
             $session->setId($this->config->get('session._session_id'));
         } else {
             $session->setId(null);
