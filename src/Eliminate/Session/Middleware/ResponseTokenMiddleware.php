@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Encryption\Encrypter;
+use Illuminate\Http\JsonResponse;
 
 class ResponseTokenMiddleware implements HttpKernelInterface {
 
@@ -53,11 +54,11 @@ class ResponseTokenMiddleware implements HttpKernelInterface {
 
         $response->headers->set('X-Response-Token', $token);
 
-        $original = $response->getData();
-
-        $original->token = $token;
-        
-        $response->setData($original);
+        if ($response instanceof JsonResponse) {
+            $original = $response->getData();
+            $original->token = $token;
+            $response->setData($original);
+        }
 
         return $response;
     }
