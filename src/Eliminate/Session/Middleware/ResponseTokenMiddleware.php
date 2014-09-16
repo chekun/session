@@ -50,7 +50,9 @@ class ResponseTokenMiddleware implements HttpKernelInterface {
 
         $userId = $this->auth->check() ? $this->auth->user()->getAuthIdentifier() : '0';
 
-        $token = $this->encrypter->encrypt($sessionId.'|'.$userId.'|'.time());
+        app('cache')->forever($code = $this->makeUniqueKey());
+
+        $token = $this->encrypter->encrypt($sessionId.'|'.$userId.'|'.time().'|'.$code);
 
         $response->headers->set('X-Response-Token', $token);
 
@@ -61,6 +63,26 @@ class ResponseTokenMiddleware implements HttpKernelInterface {
         }
 
         return $response;
+    }
+
+    private function makeUniqueKey() {
+        $code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $rand = $code[rand(0,25)]
+            .strtoupper(dechex(date('m')))
+            .date('d').substr(time(),-5)
+            .substr(microtime(),2,5)
+            .sprintf('%02d',rand(0,99));
+        for(
+            $a = md5( $rand, true ),
+            $s = '0123456789ABCDEFGHIJKLMNOPQRSTUV',
+            $d = '',
+            $f = 0;
+            $f < 8;
+            $g = ord( $a[ $f ] ),
+            $d .= $s[ ( $g ^ ord( $a[ $f + 8 ] ) ) - $g & 0x1F ],
+            $f++
+        );
+        return $d;
     }
 
 }

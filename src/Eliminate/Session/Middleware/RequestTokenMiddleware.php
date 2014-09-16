@@ -8,6 +8,8 @@ use Illuminate\Encryption\Encrypter;
 
 class RequestTokenMiddleware implements HttpKernelInterface {
 
+    protected $cache = null;
+
     public function __construct(HttpKernelInterface $app, Repository $config, Encrypter $encrypter)
     {
         $this->app = $app;
@@ -41,15 +43,22 @@ class RequestTokenMiddleware implements HttpKernelInterface {
 
             $tokenValue = explode('|', $this->encrypter->decrypt($token));
 
+            $this->cache = app('cache');
+
             app()->before(function() use ($tokenValue){
+
                 if (\Auth::check() and is_null(\Session::get(\Auth::getName()))) {
                     \Session::put(\Auth::getName(), $tokenValue[1]);
                 }
             });
 
-            $this->config->set('session._session_id', $tokenValue[0]);
+            if ($this->cache->get('token.'.$tokenValue[3])) {
+                $this->config->set('session._session_id', $tokenValue[0]);
+                $this->config->set('session._timestamp', $tokenValue[2]);
+                $this->cache->forget('token.'.$tokenValue[3]);
+            }
 
-            $this->config->set('session._timestamp', $tokenValue[2]);
+
 
         }
 
