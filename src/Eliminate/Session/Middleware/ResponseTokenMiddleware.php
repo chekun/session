@@ -50,7 +50,9 @@ class ResponseTokenMiddleware implements HttpKernelInterface {
 
         $userId = $this->auth->check() ? $this->auth->user()->getAuthIdentifier() : '0';
 
-        app('cache')->forever($code = $this->makeUniqueKey());
+        $code = $this->makeUniqueKey();
+
+        app('cache')->forever('token.'.$code, 1);
 
         $token = $this->encrypter->encrypt($sessionId.'|'.$userId.'|'.time().'|'.$code);
 
