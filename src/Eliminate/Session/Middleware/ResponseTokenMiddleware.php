@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
 
 class ResponseTokenMiddleware implements HttpKernelInterface {
 
@@ -52,7 +53,7 @@ class ResponseTokenMiddleware implements HttpKernelInterface {
 
         $code = $this->makeUniqueKey();
 
-        app('cache')->forever('token.'.$code, 1);
+        app('cache')->put('token.'.$code, 1, Carbon::now()->addMonth());
 
         $token = $this->encrypter->encrypt($sessionId.'|'.$userId.'|'.time().'|'.$code);
 
